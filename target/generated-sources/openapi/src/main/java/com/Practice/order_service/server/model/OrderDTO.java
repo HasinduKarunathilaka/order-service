@@ -19,7 +19,7 @@ import jakarta.annotation.Generated;
  * OrderDTO
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-12-04T16:45:27.661726906+05:30[Asia/Colombo]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-12-05T16:02:10.579722544+05:30[Asia/Colombo]")
 public class OrderDTO {
 
   private Long orderId;
