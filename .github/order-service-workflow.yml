@@ -38,7 +38,7 @@ jobs:
         context: .
         file: ./Dockerfile
         push: true
-        tags: ${{ secrets.DOCKER_USERNAME }}/user-service:latest
+        tags: ${{ secrets.DOCKER_USERNAME }}/order-service:latest
         secrets: |
           DOCKER_BUILDKIT=1
           BUILDKIT_STEP_LOG_MAX_SIZE=10485760
