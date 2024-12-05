@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OrderService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">orders service</a> &gt; <a href="index.source.html" class="el_package">com.Practice.order_service.service</a> &gt; <span class="el_source">OrderService.java</span></div><h1>OrderService.java</h1><pre class="source lang-java linenums">package com.Practice.order_service.service;
+
+import com.Practice.order_service.exception.OrderAlreadyExistsException;
+import com.Practice.order_service.exception.OrderNotFoundException;
+import com.Practice.order_service.model.Orders;
+import com.Practice.order_service.repository.OrderRepository;
+import com.Practice.order_service.server.model.OrderDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+@Service
+public class OrderService {
+    @Autowired
+    private final OrderRepository orderRepository;
+
+<span class="fc" id="L18">    public OrderService(OrderRepository orderRepository) {</span>
+<span class="fc" id="L19">        this.orderRepository = orderRepository;</span>
+<span class="fc" id="L20">    }</span>
+
+    //get Oder by id
+    public Mono&lt;OrderDTO&gt; getOrderById(Long id){
+<span class="nc" id="L24">        return orderRepository.findById(id)</span>
+<span class="nc" id="L25">                .switchIfEmpty(Mono.error(new OrderNotFoundException(&quot;Order not found with this id &quot;+ id)))</span>
+<span class="nc" id="L26">                .map(this::toDTO);</span>
+    }
+
+    //add order
+    public Mono&lt;?&gt; addOrder(OrderDTO orderDTO){
+<span class="nc" id="L31">        Orders orders = toEntity(orderDTO);</span>
+<span class="nc" id="L32">        return orderRepository.save(orders)</span>
+<span class="nc" id="L33">                .map(this::toDTO);</span>
+    }
+
+
+
+    //getAllOrders
+    public Flux&lt;OrderDTO&gt; getAllOrders(){
+<span class="nc" id="L40">        return orderRepository.findAll()</span>
+<span class="nc" id="L41">                .switchIfEmpty(Mono.error(new OrderNotFoundException(&quot;Orders not found in your table&quot;)))</span>
+<span class="nc" id="L42">                .map(this::toDTO);</span>
+    }
+
+    //update order
+    public Mono&lt;OrderDTO&gt; updateUser(Long id, OrderDTO updatedOrderDto){
+<span class="nc" id="L47">        return orderRepository.findById(id)</span>
+<span class="nc" id="L48">                .switchIfEmpty(Mono.error(new OrderNotFoundException(&quot;Order does not found with this id &quot;+ id)))</span>
+<span class="nc" id="L49">                .flatMap(existingOrder-&gt;{</span>
+<span class="nc" id="L50">                    existingOrder.setUserId(updatedOrderDto.getUserId());</span>
+<span class="nc" id="L51">                    existingOrder.setProductName(updatedOrderDto.getProductName());</span>
+<span class="nc" id="L52">                    existingOrder.setQuantity(updatedOrderDto.getQuantity());</span>
+<span class="nc" id="L53">                    existingOrder.setPrice(updatedOrderDto.getPrice());</span>
+<span class="nc" id="L54">                    return orderRepository.save(existingOrder);</span>
+                })
+<span class="nc" id="L56">                .map(this::toDTO);</span>
+    }
+
+    //delete order
+    public Mono&lt;Void&gt; deleteUser(Long id){
+<span class="nc" id="L61">        return orderRepository.findById(id)</span>
+<span class="nc" id="L62">                .switchIfEmpty(Mono.error(new OrderNotFoundException(&quot;Order does not found with this id &quot;+ id)))</span>
+<span class="nc" id="L63">                .flatMap(existingOrder-&gt; orderRepository.deleteById(id));</span>
+
+    }
+
+    //get orders by user id
+    public Flux&lt;OrderDTO&gt; getOrdersByUserId(Long userId) {
+<span class="nc" id="L69">        return orderRepository.findByUserId(userId)</span>
+<span class="nc" id="L70">                .switchIfEmpty(Flux.empty())</span>
+<span class="nc" id="L71">                .map(this::toDTO);</span>
+    }
+
+    public OrderDTO toDTO(Orders orders){
+<span class="nc" id="L75">        OrderDTO od = new OrderDTO();</span>
+<span class="nc" id="L76">        od.setOrderId(orders.getOrderId());</span>
+<span class="nc" id="L77">        od.setUserId(orders.getUserId());</span>
+<span class="nc" id="L78">        od.setProductName(orders.getProductName());</span>
+<span class="nc" id="L79">        od.setPrice(orders.getPrice());</span>
+<span class="nc" id="L80">        od.setQuantity(orders.getQuantity());</span>
+<span class="nc" id="L81">        return od;</span>
+    }
+
+    public Orders toEntity(OrderDTO orderDTO){
+<span class="nc" id="L85">        Orders orders = new Orders();</span>
+<span class="nc" id="L86">        orders.setOrderId(orderDTO.getOrderId());</span>
+<span class="nc" id="L87">        orders.setUserId(orderDTO.getUserId());</span>
+<span class="nc" id="L88">        orders.setProductName(orderDTO.getProductName());</span>
+<span class="nc" id="L89">        orders.setPrice(orderDTO.getPrice());</span>
+<span class="nc" id="L90">        orders.setQuantity(orderDTO.getQuantity());</span>
+<span class="nc" id="L91">        return orders;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

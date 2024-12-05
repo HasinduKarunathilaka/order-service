@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OrdersApiImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">orders service</a> &gt; <a href="index.source.html" class="el_package">com.Practice.order_service.api</a> &gt; <span class="el_source">OrdersApiImpl.java</span></div><h1>OrdersApiImpl.java</h1><pre class="source lang-java linenums">package com.Practice.order_service.api;
+
+import com.Practice.order_service.server.api.OrdersApiDelegate;
+import com.Practice.order_service.server.model.OrderDTO;
+import com.Practice.order_service.server.model.Response;
+import com.Practice.order_service.service.OrderService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.server.ServerWebExchange;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+import java.time.LocalDateTime;
+
+@Service
+<span class="fc" id="L19">@Slf4j</span>
+public class OrdersApiImpl implements OrdersApiDelegate {
+    @Autowired
+    private final OrderService orderService;
+
+
+<span class="fc" id="L25">    public OrdersApiImpl(OrderService orderService) {</span>
+<span class="fc" id="L26">        this.orderService = orderService;</span>
+<span class="fc" id="L27">    }</span>
+
+    @Override
+    public Mono&lt;ResponseEntity&lt;OrderDTO&gt;&gt; getOrderById(Long id, ServerWebExchange exchange) {
+<span class="nc" id="L31">        return orderService.getOrderById(id)</span>
+<span class="nc" id="L32">                .map(ResponseEntity::ok);</span>
+    }
+
+    @Override
+    public Mono&lt;ResponseEntity&lt;Response&gt;&gt; addOrder(Mono&lt;OrderDTO&gt; orderDTO, ServerWebExchange exchange) {
+<span class="nc" id="L37">        return orderDTO</span>
+<span class="nc" id="L38">                .flatMap(orderService::addOrder)</span>
+<span class="nc" id="L39">                .map(order-&gt;{</span>
+<span class="nc" id="L40">                    Response response = new Response();</span>
+<span class="nc" id="L41">                    response.setResponseCode(&quot;ORDER_ADDED_SUCCESSFULLy&quot;);</span>
+<span class="nc" id="L42">                    response.setMessage(&quot;Order has been added successfully&quot;);</span>
+<span class="nc" id="L43">                    response.setTimestamp(LocalDateTime.now());</span>
+<span class="nc" id="L44">                    return ResponseEntity.ok(response);</span>
+                })
+<span class="nc" id="L46">                .onErrorResume(e-&gt; Mono.fromSupplier(()-&gt;{</span>
+<span class="nc" id="L47">                    Response response = new Response();</span>
+<span class="nc" id="L48">                    response.setMessage(e.getMessage());</span>
+<span class="nc" id="L49">                    response.setResponseCode(&quot;ORDER_ADDED_FAILED&quot;);</span>
+<span class="nc" id="L50">                    response.setTimestamp(LocalDateTime.now());</span>
+<span class="nc" id="L51">                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);</span>
+                }));
+
+    }
+
+    @Override
+    public Mono&lt;ResponseEntity&lt;Flux&lt;OrderDTO&gt;&gt;&gt; getAllOrders(ServerWebExchange exchange) {
+<span class="nc" id="L58">        return Mono.just(ResponseEntity.ok(orderService.getAllOrders()));</span>
+    }
+
+    @Override
+    public Mono&lt;ResponseEntity&lt;Response&gt;&gt; updateOrder(Long id, Mono&lt;OrderDTO&gt; orderDTO, ServerWebExchange exchange) {
+<span class="nc" id="L63">        return orderDTO</span>
+<span class="nc" id="L64">                .flatMap(updatedDto-&gt; orderService.updateUser(id, updatedDto))</span>
+<span class="nc" id="L65">                .then(Mono.fromSupplier(()-&gt; {</span>
+<span class="nc" id="L66">                    Response response = new Response();</span>
+<span class="nc" id="L67">                    response.setResponseCode(&quot;ORDER_UPDATED_SUCCESSFULLY&quot;);</span>
+<span class="nc" id="L68">                    response.setMessage(&quot;Order has been updated successfully&quot;);</span>
+<span class="nc" id="L69">                    response.setTimestamp(LocalDateTime.now());</span>
+<span class="nc" id="L70">                    return ResponseEntity.ok(response);</span>
+                }))
+<span class="nc" id="L72">                .onErrorResume(e-&gt; Mono.fromSupplier(()-&gt;{</span>
+<span class="nc" id="L73">                    Response response = new Response();</span>
+<span class="nc" id="L74">                    response.setResponseCode(&quot;ORDER_UPDATE_FAIL&quot;);</span>
+<span class="nc" id="L75">                    response.setMessage(e.getMessage());</span>
+<span class="nc" id="L76">                    response.setTimestamp(LocalDateTime.now());</span>
+<span class="nc" id="L77">                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);</span>
+                }));
+    }
+
+    @Override
+    public Mono&lt;ResponseEntity&lt;Response&gt;&gt; deleteOrder(Long id, ServerWebExchange exchange) {
+<span class="nc" id="L83">        return orderService.deleteUser(id)</span>
+<span class="nc" id="L84">                .then(Mono.fromSupplier(()-&gt;{</span>
+<span class="nc" id="L85">                    Response response = new Response();</span>
+<span class="nc" id="L86">                    response.setResponseCode(&quot;ORDER_DELETED_SUCCESSFULLY&quot;);</span>
+<span class="nc" id="L87">                    response.setMessage(&quot;Order has been deleted successfully&quot;);</span>
+<span class="nc" id="L88">                    response.setTimestamp(LocalDateTime.now());</span>
+<span class="nc" id="L89">                    return ResponseEntity.ok(response);</span>
+                }))
+<span class="nc" id="L91">                .onErrorResume(e -&gt; Mono.fromSupplier(() -&gt; {</span>
+<span class="nc" id="L92">                    Response response = new Response();</span>
+<span class="nc" id="L93">                    response.setMessage(e.getMessage());</span>
+<span class="nc" id="L94">                    response.setResponseCode(&quot;ORDER_DELETION_FAILED&quot;);</span>
+<span class="nc" id="L95">                    response.setTimestamp(LocalDateTime.now());</span>
+<span class="nc" id="L96">                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);</span>
+                }));
+    }
+
+    @Override
+    public Mono&lt;ResponseEntity&lt;Flux&lt;OrderDTO&gt;&gt;&gt; getOrdersByUserId(Long id, ServerWebExchange exchange) {
+<span class="nc" id="L102">        return Mono.just(</span>
+<span class="nc" id="L103">                ResponseEntity.ok(orderService.getOrdersByUserId(id))</span>
+        );
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

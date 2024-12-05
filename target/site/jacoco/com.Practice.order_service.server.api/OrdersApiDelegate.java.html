@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OrdersApiDelegate.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">orders service</a> &gt; <a href="index.source.html" class="el_package">com.Practice.order_service.server.api</a> &gt; <span class="el_source">OrdersApiDelegate.java</span></div><h1>OrdersApiDelegate.java</h1><pre class="source lang-java linenums">package com.Practice.order_service.server.api;
+
+import com.Practice.order_service.server.model.OrderDTO;
+import com.Practice.order_service.server.model.Response;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.context.request.NativeWebRequest;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ServerWebExchange;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+import org.springframework.http.codec.multipart.Part;
+
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import jakarta.annotation.Generated;
+
+/**
+ * A delegate to be called by the {@link OrdersApiController}}.
+ * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
+ */
+@Generated(value = &quot;org.openapitools.codegen.languages.SpringCodegen&quot;, date = &quot;2024-12-04T16:45:27.661726906+05:30[Asia/Colombo]&quot;)
+public interface OrdersApiDelegate {
+
+    default Optional&lt;NativeWebRequest&gt; getRequest() {
+<span class="nc" id="L30">        return Optional.empty();</span>
+    }
+
+    /**
+     * POST /orders : Add Order
+     * Add order to orders table
+     *
+     * @param orderDTO Add Order details to create a new order (required)
+     * @return Order Added successfully (status code 200)
+     *         or Invalid Order inputs (status code 404)
+     *         or Internal server error (status code 500)
+     * @see OrdersApi#addOrder
+     */
+    default Mono&lt;ResponseEntity&lt;Response&gt;&gt; addOrder(Mono&lt;OrderDTO&gt; orderDTO,
+        ServerWebExchange exchange) {
+<span class="nc" id="L45">        Mono&lt;Void&gt; result = Mono.empty();</span>
+<span class="nc" id="L46">        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);</span>
+<span class="nc bnc" id="L47" title="All 2 branches missed.">        for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {</span>
+<span class="nc bnc" id="L48" title="All 2 branches missed.">            if (mediaType.isCompatibleWith(MediaType.valueOf(&quot;application/json&quot;))) {</span>
+<span class="nc" id="L49">                String exampleString = &quot;{ \&quot;message\&quot; : \&quot;message\&quot;, \&quot;responseCode\&quot; : \&quot;responseCode\&quot;, \&quot;timestamp\&quot; : \&quot;2000-01-23T04:56:07.000+00:00\&quot; }&quot;;</span>
+<span class="nc" id="L50">                result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf(&quot;application/json&quot;), exampleString);</span>
+<span class="nc" id="L51">                break;</span>
+            }
+<span class="nc" id="L53">        }</span>
+<span class="nc" id="L54">        return result.then(orderDTO).then(Mono.empty());</span>
+
+    }
+
+    /**
+     * DELETE /orders/remove/{id} : Delete order by id
+     * Delete order by their unique id
+     *
+     * @param id The unique identifier of the order. (required)
+     * @return order deleted successfully. (status code 200)
+     *         or order not found. (status code 404)
+     *         or Internal server error. (status code 500)
+     * @see OrdersApi#deleteOrder
+     */
+    default Mono&lt;ResponseEntity&lt;Response&gt;&gt; deleteOrder(Long id,
+        ServerWebExchange exchange) {
+<span class="nc" id="L70">        Mono&lt;Void&gt; result = Mono.empty();</span>
+<span class="nc" id="L71">        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">        for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">            if (mediaType.isCompatibleWith(MediaType.valueOf(&quot;application/json&quot;))) {</span>
+<span class="nc" id="L74">                String exampleString = &quot;{ \&quot;message\&quot; : \&quot;message\&quot;, \&quot;responseCode\&quot; : \&quot;responseCode\&quot;, \&quot;timestamp\&quot; : \&quot;2000-01-23T04:56:07.000+00:00\&quot; }&quot;;</span>
+<span class="nc" id="L75">                result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf(&quot;application/json&quot;), exampleString);</span>
+<span class="nc" id="L76">                break;</span>
+            }
+<span class="nc" id="L78">        }</span>
+<span class="nc" id="L79">        return result.then(Mono.empty());</span>
+
+    }
+
+    /**
+     * GET /orders/all : Get All Orders
+     * Retrieve all orders from orders table
+     *
+     * @return Order details retrieved successfully. (status code 200)
+     *         or Order not found. (status code 404)
+     * @see OrdersApi#getAllOrders
+     */
+    default Mono&lt;ResponseEntity&lt;Flux&lt;OrderDTO&gt;&gt;&gt; getAllOrders(ServerWebExchange exchange) {
+<span class="nc" id="L92">        Mono&lt;Void&gt; result = Mono.empty();</span>
+<span class="nc" id="L93">        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);</span>
+<span class="nc bnc" id="L94" title="All 2 branches missed.">        for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {</span>
+<span class="nc bnc" id="L95" title="All 2 branches missed.">            if (mediaType.isCompatibleWith(MediaType.valueOf(&quot;application/json&quot;))) {</span>
+<span class="nc" id="L96">                String exampleString = &quot;[ { \&quot;quantity\&quot; : 1, \&quot;user_id\&quot; : 6, \&quot;price\&quot; : 0.5962133916683182, \&quot;order_id\&quot; : 0, \&quot;product_name\&quot; : \&quot;product_name\&quot; }, { \&quot;quantity\&quot; : 1, \&quot;user_id\&quot; : 6, \&quot;price\&quot; : 0.5962133916683182, \&quot;order_id\&quot; : 0, \&quot;product_name\&quot; : \&quot;product_name\&quot; } ]&quot;;</span>
+<span class="nc" id="L97">                result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf(&quot;application/json&quot;), exampleString);</span>
+<span class="nc" id="L98">                break;</span>
+            }
+<span class="nc" id="L100">        }</span>
+<span class="nc" id="L101">        return result.then(Mono.empty());</span>
+
+    }
+
+    /**
+     * GET /orders/{id} : Get Order By Id
+     * Retrieve order details using order id
+     *
+     * @param id The unique identifier of the order (required)
+     * @return Order details retrieve successfully (status code 200)
+     *         or Order not found. (status code 404)
+     * @see OrdersApi#getOrderById
+     */
+    default Mono&lt;ResponseEntity&lt;OrderDTO&gt;&gt; getOrderById(Long id,
+        ServerWebExchange exchange) {
+<span class="nc" id="L116">        Mono&lt;Void&gt; result = Mono.empty();</span>
+<span class="nc" id="L117">        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);</span>
+<span class="nc bnc" id="L118" title="All 2 branches missed.">        for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {</span>
+<span class="nc bnc" id="L119" title="All 2 branches missed.">            if (mediaType.isCompatibleWith(MediaType.valueOf(&quot;application/json&quot;))) {</span>
+<span class="nc" id="L120">                String exampleString = &quot;{ \&quot;quantity\&quot; : 1, \&quot;user_id\&quot; : 6, \&quot;price\&quot; : 0.5962133916683182, \&quot;order_id\&quot; : 0, \&quot;product_name\&quot; : \&quot;product_name\&quot; }&quot;;</span>
+<span class="nc" id="L121">                result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf(&quot;application/json&quot;), exampleString);</span>
+<span class="nc" id="L122">                break;</span>
+            }
+<span class="nc" id="L124">        }</span>
+<span class="nc" id="L125">        return result.then(Mono.empty());</span>
+
+    }
+
+    /**
+     * GET /orders/user/{id} : get orders using user id
+     * Retrieve the all orders related user id
+     *
+     * @param id The unique identifier of the user. (required)
+     * @return Order details retrieved successfully. (status code 200)
+     *         or Order not found. (status code 404)
+     * @see OrdersApi#getOrdersByUserId
+     */
+    default Mono&lt;ResponseEntity&lt;Flux&lt;OrderDTO&gt;&gt;&gt; getOrdersByUserId(Long id,
+        ServerWebExchange exchange) {
+<span class="nc" id="L140">        Mono&lt;Void&gt; result = Mono.empty();</span>
+<span class="nc" id="L141">        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);</span>
+<span class="nc bnc" id="L142" title="All 2 branches missed.">        for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {</span>
+<span class="nc bnc" id="L143" title="All 2 branches missed.">            if (mediaType.isCompatibleWith(MediaType.valueOf(&quot;application/json&quot;))) {</span>
+<span class="nc" id="L144">                String exampleString = &quot;[ { \&quot;quantity\&quot; : 1, \&quot;user_id\&quot; : 6, \&quot;price\&quot; : 0.5962133916683182, \&quot;order_id\&quot; : 0, \&quot;product_name\&quot; : \&quot;product_name\&quot; }, { \&quot;quantity\&quot; : 1, \&quot;user_id\&quot; : 6, \&quot;price\&quot; : 0.5962133916683182, \&quot;order_id\&quot; : 0, \&quot;product_name\&quot; : \&quot;product_name\&quot; } ]&quot;;</span>
+<span class="nc" id="L145">                result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf(&quot;application/json&quot;), exampleString);</span>
+<span class="nc" id="L146">                break;</span>
+            }
+<span class="nc" id="L148">        }</span>
+<span class="nc" id="L149">        return result.then(Mono.empty());</span>
+
+    }
+
+    /**
+     * PUT /orders/update/{id} : Update Order by ID
+     * Update the details of a order by their unique ID.
+     *
+     * @param id The unique identifier of the order. (required)
+     * @param orderDTO The updated order details. (required)
+     * @return Order updated successfully. (status code 200)
+     *         or Order not found. (status code 404)
+     *         or Invalid input. (status code 400)
+     *         or Internal server error. (status code 500)
+     * @see OrdersApi#updateOrder
+     */
+    default Mono&lt;ResponseEntity&lt;Response&gt;&gt; updateOrder(Long id,
+        Mono&lt;OrderDTO&gt; orderDTO,
+        ServerWebExchange exchange) {
+<span class="nc" id="L168">        Mono&lt;Void&gt; result = Mono.empty();</span>
+<span class="nc" id="L169">        exchange.getResponse().setStatusCode(HttpStatus.NOT_IMPLEMENTED);</span>
+<span class="nc bnc" id="L170" title="All 2 branches missed.">        for (MediaType mediaType : exchange.getRequest().getHeaders().getAccept()) {</span>
+<span class="nc bnc" id="L171" title="All 2 branches missed.">            if (mediaType.isCompatibleWith(MediaType.valueOf(&quot;application/json&quot;))) {</span>
+<span class="nc" id="L172">                String exampleString = &quot;{ \&quot;message\&quot; : \&quot;message\&quot;, \&quot;responseCode\&quot; : \&quot;responseCode\&quot;, \&quot;timestamp\&quot; : \&quot;2000-01-23T04:56:07.000+00:00\&quot; }&quot;;</span>
+<span class="nc" id="L173">                result = ApiUtil.getExampleResponse(exchange, MediaType.valueOf(&quot;application/json&quot;), exampleString);</span>
+<span class="nc" id="L174">                break;</span>
+            }
+<span class="nc" id="L176">        }</span>
+<span class="nc" id="L177">        return result.then(orderDTO).then(Mono.empty());</span>
+
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

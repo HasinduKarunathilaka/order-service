@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Response.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">orders service</a> &gt; <a href="index.source.html" class="el_package">com.Practice.order_service.server.model</a> &gt; <span class="el_source">Response.java</span></div><h1>Response.java</h1><pre class="source lang-java linenums">package com.Practice.order_service.server.model;
+
+import java.net.URI;
+import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.openapitools.jackson.nullable.JsonNullable;
+import java.time.OffsetDateTime;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+
+import java.util.*;
+import jakarta.annotation.Generated;
+
+/**
+ * Response
+ */
+
+@Generated(value = &quot;org.openapitools.codegen.languages.SpringCodegen&quot;, date = &quot;2024-12-04T16:45:27.661726906+05:30[Asia/Colombo]&quot;)
+public class Response {
+
+  private String responseCode;
+
+  private String message;
+
+  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+  private LocalDateTime timestamp;
+
+  public Response() {
+<span class="nc" id="L35">    super();</span>
+<span class="nc" id="L36">  }</span>
+
+  /**
+   * Constructor with only required parameters
+   */
+<span class="nc" id="L41">  public Response(String responseCode, String message) {</span>
+<span class="nc" id="L42">    this.responseCode = responseCode;</span>
+<span class="nc" id="L43">    this.message = message;</span>
+<span class="nc" id="L44">  }</span>
+
+  public Response responseCode(String responseCode) {
+<span class="nc" id="L47">    this.responseCode = responseCode;</span>
+<span class="nc" id="L48">    return this;</span>
+  }
+
+  /**
+   * A short error code to describe the error type.
+   * @return responseCode
+  */
+  @NotNull 
+  @Schema(name = &quot;responseCode&quot;, description = &quot;A short error code to describe the error type.&quot;, requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty(&quot;responseCode&quot;)
+  public String getResponseCode() {
+<span class="nc" id="L59">    return responseCode;</span>
+  }
+
+  public void setResponseCode(String responseCode) {
+<span class="nc" id="L63">    this.responseCode = responseCode;</span>
+<span class="nc" id="L64">  }</span>
+
+  public Response message(String message) {
+<span class="nc" id="L67">    this.message = message;</span>
+<span class="nc" id="L68">    return this;</span>
+  }
+
+  /**
+   * A detailed message explaining the error.
+   * @return message
+  */
+  @NotNull 
+  @Schema(name = &quot;message&quot;, description = &quot;A detailed message explaining the error.&quot;, requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty(&quot;message&quot;)
+  public String getMessage() {
+<span class="nc" id="L79">    return message;</span>
+  }
+
+  public void setMessage(String message) {
+<span class="nc" id="L83">    this.message = message;</span>
+<span class="nc" id="L84">  }</span>
+
+  public Response timestamp(LocalDateTime timestamp) {
+<span class="nc" id="L87">    this.timestamp = timestamp;</span>
+<span class="nc" id="L88">    return this;</span>
+  }
+
+  /**
+   * The timestamp when the error occurred.
+   * @return timestamp
+  */
+  @Valid 
+  @Schema(name = &quot;timestamp&quot;, description = &quot;The timestamp when the error occurred.&quot;, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty(&quot;timestamp&quot;)
+  public LocalDateTime getTimestamp() {
+<span class="nc" id="L99">    return timestamp;</span>
+  }
+
+  public void setTimestamp(LocalDateTime timestamp) {
+<span class="nc" id="L103">    this.timestamp = timestamp;</span>
+<span class="nc" id="L104">  }</span>
+
+  @Override
+  public boolean equals(Object o) {
+<span class="nc bnc" id="L108" title="All 2 branches missed.">    if (this == o) {</span>
+<span class="nc" id="L109">      return true;</span>
+    }
+<span class="nc bnc" id="L111" title="All 4 branches missed.">    if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L112">      return false;</span>
+    }
+<span class="nc" id="L114">    Response response = (Response) o;</span>
+<span class="nc bnc" id="L115" title="All 2 branches missed.">    return Objects.equals(this.responseCode, response.responseCode) &amp;&amp;</span>
+<span class="nc bnc" id="L116" title="All 2 branches missed.">        Objects.equals(this.message, response.message) &amp;&amp;</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">        Objects.equals(this.timestamp, response.timestamp);</span>
+  }
+
+  @Override
+  public int hashCode() {
+<span class="nc" id="L122">    return Objects.hash(responseCode, message, timestamp);</span>
+  }
+
+  @Override
+  public String toString() {
+<span class="nc" id="L127">    StringBuilder sb = new StringBuilder();</span>
+<span class="nc" id="L128">    sb.append(&quot;class Response {\n&quot;);</span>
+<span class="nc" id="L129">    sb.append(&quot;    responseCode: &quot;).append(toIndentedString(responseCode)).append(&quot;\n&quot;);</span>
+<span class="nc" id="L130">    sb.append(&quot;    message: &quot;).append(toIndentedString(message)).append(&quot;\n&quot;);</span>
+<span class="nc" id="L131">    sb.append(&quot;    timestamp: &quot;).append(toIndentedString(timestamp)).append(&quot;\n&quot;);</span>
+<span class="nc" id="L132">    sb.append(&quot;}&quot;);</span>
+<span class="nc" id="L133">    return sb.toString();</span>
+  }
+
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(Object o) {
+<span class="nc bnc" id="L141" title="All 2 branches missed.">    if (o == null) {</span>
+<span class="nc" id="L142">      return &quot;null&quot;;</span>
+    }
+<span class="nc" id="L144">    return o.toString().replace(&quot;\n&quot;, &quot;\n    &quot;);</span>
+  }
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
